@@ -4,6 +4,7 @@ import { getToken } from "../utils/auth";
 import { Pencil } from "lucide-react"; // you can use any icon library you prefer
 
 export default function Profile() {
+  const BASE_URL = import.meta.env.VITE_API_URL;
   const [user, setUser] = useState(null);
   const [form, setForm] = useState({ name: "", password: "" });
   const [isEditing, setIsEditing] = useState(false);
@@ -11,7 +12,7 @@ export default function Profile() {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/user/me", {
+        const res = await axios.get(`${BASE_URL}/api/user/me`, {
           headers: { Authorization: `Bearer ${getToken()}` },
         });
         setUser(res.data);
@@ -26,7 +27,7 @@ export default function Profile() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.put("http://localhost:5000/api/user/me", form, {
+      await axios.put(`${BASE_URL}/api/user/me`, form, {
         headers: { Authorization: `Bearer ${getToken()}` },
       });
       alert("Profile updated");

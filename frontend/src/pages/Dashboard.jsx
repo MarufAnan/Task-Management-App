@@ -8,6 +8,7 @@ import AddTask from '../components/AddTask';
 import TaskCard from '../components/TaskCard';
 
 export default function Dashboard() {
+  const BASE_URL = import.meta.env.VITE_API_URL;
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -20,7 +21,7 @@ export default function Dashboard() {
 
   const fetchTasks = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/api/tasks', {
+      const res = await axios.get(`${BASE_URL}/api/tasks`, {
         headers: { Authorization: `Bearer ${getToken()}` }
       });
       setTasks(res.data);
@@ -30,7 +31,7 @@ export default function Dashboard() {
   };
 
   const deleteTask = async (id) => {
-    await axios.delete(`http://localhost:5000/api/tasks/${id}`, {
+    await axios.delete(`${BASE_URL}/api/tasks/${id}`, {
       headers: { Authorization: `Bearer ${getToken()}` }
     });
     fetchTasks();
@@ -43,7 +44,7 @@ export default function Dashboard() {
         ? (task.status === 'completed' ? 'incomplete' : 'completed')
         : !task.important
     };
-    await axios.put(`http://localhost:5000/api/tasks/${task._id}`, updated, {
+    await axios.put(`${BASE_URL}/api/tasks/${task._id}`, updated, {
       headers: { Authorization: `Bearer ${getToken()}` }
     });
     fetchTasks();

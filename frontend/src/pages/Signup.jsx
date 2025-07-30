@@ -4,12 +4,13 @@ import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 
 export default function Signup() {
+  const BASE_URL = import.meta.env.VITE_API_URL;
   const [form, setForm] = useState({ name: '', email: '', password: '' });
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await axios.post('http://localhost:5000/api/auth/signup', form);
+    await axios.post(`${BASE_URL}/api/auth/signup`, form);
     navigate('/login');
   };
 
@@ -41,13 +42,5 @@ export default function Signup() {
     </div>
     </div>
 
-
-    // <form onSubmit={handleSubmit}>
-    //   <h2>Signup</h2>
-    //   <input placeholder="Name" onChange={e => setForm({ ...form, name: e.target.value })} />
-    //   <input placeholder="Email" onChange={e => setForm({ ...form, email: e.target.value })} />
-    //   <input type="password" placeholder="Password" onChange={e => setForm({ ...form, password: e.target.value })} />
-    //   <button type="submit">Sign up</button>
-    // </form>
   );
 }
