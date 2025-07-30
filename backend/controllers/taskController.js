@@ -6,16 +6,22 @@ exports.getTasks = async (req, res) => {
 };
 
 exports.createTask = async (req, res) => {
-  const { title, description, priority, dueDate } = req.body;
-const task = await Task.create({
-  title,
-  description,
-  priority,
-  dueDate,
-  user: req.userId
-});
-
+  try {
+    const { title, description, priority, dueDate } = req.body;
+    const task = await Task.create({
+      title,
+      description,
+      priority,
+      dueDate,
+      user: req.userId
+    });
+    res.status(201).json(task);
+  } catch (error) {
+    console.error("Error creating task:", error);
+    res.status(500).json({ message: 'Failed to create task' });
+  }
 };
+
 
 exports.updateTask = async (req, res) => {
   const { id } = req.params;
